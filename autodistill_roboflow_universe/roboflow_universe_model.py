@@ -28,7 +28,7 @@ class RoboflowUniverseModel(DetectionBaseModel):
         predictions_data = predictions["predictions"]
 
         predictions_data = [
-            p for p in predictions_data if p["label"] in self.ontology.labels
+            p for p in predictions_data if p["class"] in self.ontology.prompts()
         ]
 
         predictions["predictions"] = predictions_data
