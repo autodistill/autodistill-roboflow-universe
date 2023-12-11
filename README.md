@@ -41,23 +41,23 @@ from autodistill.detection import CaptionOntology
 # where caption is the prompt sent to the base model, and class is the label that will
 # be saved for that caption in the generated annotations
 # then, load the model
+
+model_configs = [
+    ("PROJECT_ID", VERSION_NUMBER),
+    ("PROJECT_ID", VERSION_NUMBER),
+    ("PROJECT_ID", VERSION_NUMBER)
+]
+
 base_model = RoboflowUniverseModel(
     ontology=CaptionOntology(
         {
             "person": "person",
             "a forklift": "forklift"
         }
-    ),
-    model_id="MODEL_ID",
-    api_key="API_KEY",
-    model_version=VERSION,
-    model_type="object-detection",
+),
+    api_key="ROBOFLOW_API_KEY",
+    model_configs=model_configs,
 )
-
-# predict on an image
-predictions = base_model.predict("image.png")
-
-print(predictions)
 
 # label a folder of images
 base_model.label("./context_images", extension=".jpeg")
