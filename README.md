@@ -35,6 +35,8 @@ pip3 install autodistill-roboflow-universe
 ```python
 from autodistill_roboflow_universe import RoboflowUniverseModel
 from autodistill.detection import CaptionOntology
+from autodistill.utils import plot
+import cv2
 
 # define an ontology to map class names to our Roboflow model prompt
 # the ontology dictionary has the format {caption: class}
@@ -43,8 +45,6 @@ from autodistill.detection import CaptionOntology
 # then, load the model
 
 model_configs = [
-    ("PROJECT_ID", VERSION_NUMBER),
-    ("PROJECT_ID", VERSION_NUMBER),
     ("PROJECT_ID", VERSION_NUMBER)
 ]
 
@@ -59,6 +59,17 @@ base_model = RoboflowUniverseModel(
     model_configs=model_configs,
 )
 
+# run inference on a single image
+result = base_model.predict("image.jpeg")
+
+print(result)
+
+plot(
+    image=cv2.imread("image.jpeg"),
+    detections=result,
+    classes=base_model.ontology.classes(),
+)
+
 # label a folder of images
 base_model.label("./context_images", extension=".jpeg")
 ```
@@ -69,6 +80,17 @@ Above, replace:
 - `PROJECT_NAME`: with your Roboflow project ID.
 - `VERSION`: with your Roboflow model version.
 - `model_type`: with the type of model you want to run. Options are `object-detection`, `classification`, or `segmentation`. This value must be the same as the model type trained on Roboflow Universe.
+
+You can run multiple models on a single image. This is ideal if you need to identify multiple objects using different models hosted on Roboflow Universe. To run multiple models, add the models you want to run in the `model_configs` list. For example:
+
+```python
+model_configs = [
+    ("PROJECT_ID", VERSION_NUMBER),
+    ("PROJECT_ID", VERSION_NUMBER)
+]
+```
+
+All models will be run on every image.
 
 [Learn how to retrieve your Roboflow API key](https://docs.roboflow.com/api-reference/authentication#retrieve-an-api-key).
 [Learn how to retrieve a model ID](https://docs.roboflow.com/api-reference/workspace-and-project-ids).
