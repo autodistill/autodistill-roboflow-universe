@@ -54,7 +54,7 @@ base_model = RoboflowUniverseModel(
     ontology=CaptionOntology(
         {
             "person": "person",
-            "a forklift": "forklift"
+            "forklift": "vehicle"
         }
 ),
     api_key="ROBOFLOW_API_KEY",
